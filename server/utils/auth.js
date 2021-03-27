@@ -37,3 +37,8 @@ module.exports = {
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };
+
+//the signToken() function expects a user object and weill add that user's username, email, 
+// and _id properties to the token.  Optionally, tokens can be given expiration dates and 
+// a secret to sign the token with. Note that the secret has nothing to do with encoding.
+// the secret merely enables the server to verify whether it recognizes this token. 
