@@ -18,7 +18,7 @@ import Navbar from './components/Navbar';
 //server side resolber function wont check for it
 const client = new ApolloClient({
   request: operation => {
-    const token = loacStorage.getItem('id_token');
+    const token = localStorage.getItem('id_token');
 
     operation.setContext({
       headers: {
@@ -33,15 +33,15 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-      <>
-        <Navbar />
-        <Switch>
-          <Route exact path='/' component={SearchBooks} />
-          <Route exact path='/saved' component={SavedBooks} />
-          <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
-        </Switch>
-      </>
-    </Router>
+        <>
+          <Navbar />
+            <Switch>
+              <Route exact path='/' component={SearchBooks} />
+              <Route exact path='/saved' component={SavedBooks} />
+              <Route render={() => <h1 className='display-2'>Wrong page!</h1>} />
+            </Switch>
+        </>
+      </Router>
     </ApolloProvider>
   );
 }

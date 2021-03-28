@@ -4,15 +4,19 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        user: async (parent, { username }) => {
-            return User.findOne({
-                $or: [{ _id: user ? user._id : params.id }, { username: params.username }],
-              })
-            .select('-__v -password')
+        me: async (parent, args, context) => {
+            if(context.user) {
+                const userData = await User.findOne({ _id: context.user._id })
+                .select('-__v -password');
+
+                return userData;                
+            }
+
+            throw new AuthenticationError('You must be logged in to perform that query!');
         }
     },
     Mutation: {
-        createUser: async (parent, args) => {
+        addUser: async (parent, args) => {
             const user = await User.create(args);
             const token = signToken(user);
             
@@ -34,7 +38,7 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        savedBook: async ( parent, {bookData}, context ) => {
+        saveBook: async ( parent, {bookData}, context ) => {
             if(context.user) {
                 const updateUser = await User.findByIdandUpdate(
                     {_id: context.user._id},
@@ -45,9 +49,9 @@ const resolvers = {
             }
             throw new AuthenticationError("You must be logged in to save a book!")
         },
-        deleteBook: async ( parent, {bookId}, context ) => {
+        removeBook: async ( parent, {bookId}, context ) => {
             if(context.user) {
-                const updateUser = await User.findByIdAndUpdate(
+                const updateUser = await User.findOneAndUpdate(
                     {_id: context.user._id},
                     {$pull: {savedBooks: {bookId} } },
                     {new: true}
