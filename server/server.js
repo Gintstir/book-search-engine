@@ -31,13 +31,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-// // a wildcard GET route for the server.  If we make a GET request to any location on the server
-// // that doesnt have an explicit route defined, respond with the production ready React front end
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
-// })
+// a wildcard GET route for the server.  If we make a GET request to any location on the server
+// that doesnt have an explicit route defined, respond with the production ready React front end
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+})
 
-//app.use(routes);
+app.use(routes);
 
 // db.once('open', () => {
 //   app.listen(PORT, () => {console.log(`🌍 Now listening on localhost:${PORT}`));
