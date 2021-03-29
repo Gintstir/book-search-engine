@@ -33,9 +33,9 @@ if (process.env.NODE_ENV === 'production') {
 
 // a wildcard GET route for the server.  If we make a GET request to any location on the server
 // that doesnt have an explicit route defined, respond with the production ready React front end
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-})
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// })
 
 //app.use(routes);
 
